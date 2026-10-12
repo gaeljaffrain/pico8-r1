@@ -93,6 +93,10 @@ def main():
     ap.add_argument("--invert-wheel", action="store_true", help="swap wheel up/down")
     ap.add_argument("--layout", choices=["strip", "overlay"], default="strip",
                     help="strip: controls in their own area under the game (default); overlay: controls over the game")
+    ap.add_argument("--orientation", choices=["portrait", "landscape"], default="portrait",
+                    help="landscape: hold the R1 sideways, wheel down; controls move to the corners")
+    ap.add_argument("--landscape-flip", action="store_true",
+                    help="rotate the landscape page the other way (wheel up)")
     ap.add_argument("--fps", action="store_true", help="show an fps / window-size readout")
     ap.add_argument("--theme-color", default="#FE5000")
     ap.add_argument("--serve", type=int, nargs="?", const=8000, metavar="PORT", help="serve dist/ locally after building")
@@ -125,7 +129,8 @@ def main():
         for f in ("index.html", "index.js"):
             shutil.copy(stage / f, out / f)
 
-    cfg = "window.R1_CONFIG=" + json.dumps({"invertWheel": a.invert_wheel, "layout": a.layout, "fps": a.fps}) + ";\n"
+    cfg = "window.R1_CONFIG=" + json.dumps({"invertWheel": a.invert_wheel, "layout": a.layout, "fps": a.fps,
+                                            "orientation": a.orientation, "flip": a.landscape_flip}) + ";\n"
     (out / "r1-input.js").write_text(cfg + (HERE / "templates/r1-input.js").read_text())
 
     if label is None and a.cart.suffix != ".png":

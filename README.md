@@ -17,6 +17,12 @@ and the icon is cut from the cart's label).
 
 Upload the contents of `dist/` to that URL (HTTPS), then scan `dist/qr.png` with the R1's Creations scanner.
 
+As far as I know, it is not possible to side load the Creations, so it is required to upload the files to your web host,
+and scan the QR code in the Creations app on the R1.
+
+I did not try it, but I think it should be possible to host on your local machine, 
+as long as the QR code point to the right URL, accessible by your R1.
+
 ## Installation
 
 Requirements:
@@ -45,14 +51,13 @@ The R1's scanner rejects a creation whose `description` is empty, so `--descript
 
 Controls on the R1: 
 - touch d-pad and O/X buttons (multi-touch)
-- scroll wheel = up/down (`--invert-wheel` swaps)
+- scroll wheel = up/down, or left/right in landscape (`--invert-wheel` swaps)
 - side button = O
 - hold side button = pause menu
 
 Options: 
 - `--layout overlay` draws the controls over the game instead of in their own strip under it
 (bigger game, but covered)
-- `--fps` shows a frame-rate and window-size readout.
 
 <table>
   <tr>
@@ -60,14 +65,40 @@ Options:
     <td><img src="screenshots/layout_overlay.png" alt="Overlay Layout" /></td>
   </tr>
   <tr>
-    <td align="center">Default Layout</td>
-    <td align="center">Overlay Layout</td>
+    <td align="center">Default</td>
+    <td align="center">with: --layout overlay</td>
   </tr>
 </table>
+
+- `--orientation landscape` is for holding the R1 sideways with the wheel down: the page is rotated, the
+d-pad goes in the bottom-left corner and O/X in the bottom-right, over a full-height game. If the picture
+comes out upside down, add `--landscape-flip`.
+
+<table>
+	<tr>
+		<td><img src="screenshots/scopa_landscape.png" alt="Landscape Mode" /></td>
+	</tr>
+	<tr>
+		<td align="center">with: --landscape --layout overlay</td>
+	</tr>
+</table>
+
+- `--fps` shows a frame-rate and window-size readout.
 
 ### Extra files and info
 `tools/probe.html` logs R1 events. 
 `docs/r1-findings.md` records what was verified on a real R1.
+
+## Links
+
+### Where to get the PICO-8 fantasy console ?
+- [PICO-8](https://www.lexaloffle.com/pico-8.php)
+
+### Games featured in the screenshots
+
+I featured 2 games in the screenshots:
+- [Scopa! by Damobmafia](https://www.lexaloffle.com/bbs/?pid=197342#p)
+- [SMBP8 by JadeLombax](https://www.lexaloffle.com/bbs/?pid=156989#p)
 
 ## License
 

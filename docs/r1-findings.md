@@ -24,5 +24,7 @@ Still to check ON THE R1 (host tools/probe.html over https, scan a QR):
 - Side button click            -> window 'sideClick'
 - Side button hold             -> window 'longPressStart', then 'longPressEnd' on release
 - Touch                        -> 'pointerdown' then 'touchstart'
+Unverified: `--orientation landscape` rotation direction (wheel down = page rotated -90deg; `--landscape-flip` for +90deg) and thumb reach on the device.
+
 Not yet reported: audio state after tap, viewport size, creationStorage, keydown, fps.
 Bridge mapping: physical wheel up = Up (bit 4) => handle 'scrollDown' as Up, 'scrollUp' as Down.

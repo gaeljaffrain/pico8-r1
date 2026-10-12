@@ -30,6 +30,18 @@
  #fps{position:fixed;left:96px;bottom:6px;z-index:6;color:#0f0;font:10px/1.2 monospace;
    pointer-events:none;display:none;white-space:pre}
  body.overlay #fps{left:2px;top:2px;bottom:auto;background:#0008}
+ /* landscape: the whole page is rotated a quarter turn (device held sideways, wheel down).
+    --W/--H are the rotated page's size (screen height/width), set by r1-input.js.
+    Fixed children are positioned against the transformed body, so they rotate with it. */
+ body.land{position:fixed;left:0;top:0;width:var(--W);height:var(--H);transform-origin:0 0;
+   transform:translateY(var(--W)) rotate(-90deg)}
+ body.land.flip{transform:translateX(var(--H)) rotate(90deg)}
+ body.land canvas#canvas{width:var(--H);height:var(--H)}
+ body.land #pad{left:6px;bottom:6px}
+ body.land #bO{right:62px;bottom:10px}
+ body.land #bX{right:8px;bottom:36px}
+ body.land #pad,body.land .btn{opacity:.6}
+ body.land #fps{left:2px;top:2px;bottom:auto;background:#0008}
 </style>
 <script>
  // globals expected by the exported PICO-8 player

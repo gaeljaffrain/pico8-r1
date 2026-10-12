@@ -3,7 +3,11 @@
 (function(){
   var LEFT=1,RIGHT=2,UP=4,DOWN=8,O=16,X=32,MENU=64;
   var cfg=window.R1_CONFIG||{};
-  var wheelUp=cfg.invertWheel?DOWN:UP, wheelDown=cfg.invertWheel?UP:DOWN;
+  // portrait: wheel = up/down. landscape: the wheel's axis lies along the page's x axis, so it
+  // = left/right (physical up is page-right, or page-left when flipped).
+  var wU=UP,wD=DOWN;
+  if(cfg.orientation==='landscape'){wU=cfg.flip?LEFT:RIGHT;wD=cfg.flip?RIGHT:LEFT;}
+  var wheelUp=cfg.invertWheel?wD:wU, wheelDown=cfg.invertWheel?wU:wD;
   var PULSE_MS=100;
 
   var held={};      // pointerId -> mask
@@ -30,7 +34,10 @@
   var pad=document.getElementById('pad'),dot=pad.querySelector('i');
   function padMask(e){
     var r=pad.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
-    var dx=(e.clientX-cx)/(r.width/2),dy=(e.clientY-cy)/(r.height/2),t=0.3,m=0;
+    var dx=(e.clientX-cx)/(r.width/2),dy=(e.clientY-cy)/(r.height/2),t=0.3,m=0,s;
+    if(cfg.orientation==='landscape'){ // screen offset -> offset in the rotated page
+      s=dx; if(cfg.flip){dx=dy;dy=-s;}else{dx=-dy;dy=s;}
+    }
     if(dx<-t)m|=LEFT; else if(dx>t)m|=RIGHT;
     if(dy<-t)m|=UP; else if(dy>t)m|=DOWN;
     var c=Math.max(-1,Math.min(1,dx)),d=Math.max(-1,Math.min(1,dy));
@@ -62,6 +69,13 @@
 (function(){
   var cfg=window.R1_CONFIG||{};
   if(cfg.layout==='overlay')document.body.classList.add('overlay');
+  if(cfg.orientation==='landscape'){
+    var root=document.documentElement.style;
+    var size=function(){root.setProperty('--W',innerHeight+'px');root.setProperty('--H',innerWidth+'px');};
+    size(); addEventListener('resize',size);
+    document.body.classList.add('land');
+    if(cfg.flip)document.body.classList.add('flip');
+  }
   if(!cfg.fps)return;
   var el=document.getElementById('fps'),last=0,lastT=performance.now();
   el.style.display='block';
