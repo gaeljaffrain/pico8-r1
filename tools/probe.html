@@ -1,0 +1,33 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=240, user-scalable=no">
+<title>R1 probe</title>
+<style>
+ body{margin:0;background:#000;color:#0f0;font:10px monospace}
+ #l{white-space:pre-wrap;padding:2px;height:280px;overflow:hidden}
+</style></head>
+<body><div id="l"></div>
+<script>
+// Logs every input-ish event so we learn the R1's real event names.
+var L=document.getElementById('l'),lines=[];
+function log(s){lines.push(s);if(lines.length>24)lines.shift();L.textContent=lines.join('\n');}
+log('ua: '+navigator.userAgent.slice(0,60));
+log('size: '+innerWidth+'x'+innerHeight+' dpr='+devicePixelRatio);
+['sideClick','longPressStart','longPressEnd','scrollUp','scrollDown','ptt','pttStart','pttEnd'].forEach(function(n){
+  window.addEventListener(n,function(){log('window.'+n);});
+  document.addEventListener(n,function(){log('document.'+n);});
+});
+['keydown','wheel','touchstart','pointerdown','devicemotion'].forEach(function(n){
+  var last=0;
+  window.addEventListener(n,function(e){var t=Date.now();if(t-last<300)return;last=t;
+    log(n+(e.key?' key='+e.key+' code='+e.code:'')+(e.deltaY?' dY='+e.deltaY:''));},{passive:true});
+});
+log('window.creationStorage: '+typeof window.creationStorage);
+log('AudioContext: '+typeof (window.AudioContext||window.webkitAudioContext));
+document.body.addEventListener('click',function(){
+  var A=window.AudioContext||window.webkitAudioContext,c=new A();
+  log('audio state (no gesture yet?) -> '+c.state);
+  c.resume().then(function(){log('audio after tap: '+c.state);});
+});
+log('Tap once to test audio; then turn wheel, click side button, hold it.');
+</script></body></html>

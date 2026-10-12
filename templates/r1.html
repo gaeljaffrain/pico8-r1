@@ -1,0 +1,61 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>PICO-8</title>
+<style>
+ html,body{margin:0;height:100%;background:#000;overflow:hidden;
+   touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+ #stage{position:fixed;inset:0;display:flex;justify-content:center;align-items:flex-start}
+ :root{--ctl:96px}
+ canvas#canvas{width:min(100vw,calc(100vh - var(--ctl)));height:min(100vw,calc(100vh - var(--ctl)));
+   image-rendering:pixelated;image-rendering:crisp-edges;background:#000;display:block}
+ body.overlay canvas#canvas{width:min(100vw,100vh);height:min(100vw,100vh)}
+ #start{position:fixed;inset:0;z-index:10;background:#000c;color:#fff;display:flex;
+   flex-direction:column;align-items:center;justify-content:center;font:14px monospace;text-align:center}
+ #start img{width:96px;height:96px;image-rendering:pixelated;margin-bottom:12px}
+ /* touch controls: own strip under the game (default) or overlaid on it (body.overlay) */
+ #pad{position:fixed;left:4px;bottom:4px;width:88px;height:88px;border-radius:50%;
+   background:#fff3;border:1px solid #fff5;z-index:5}
+ body.overlay #pad{opacity:.6}
+ #pad i{position:absolute;width:12px;height:12px;border-radius:50%;background:#fffb;
+   left:38px;top:38px;pointer-events:none}
+ .btn{position:fixed;width:44px;height:44px;border-radius:50%;z-index:5;
+   background:#fff3;border:1px solid #fff5;color:#fffc;font:bold 16px monospace;
+   display:flex;align-items:center;justify-content:center}
+ body.overlay .btn{opacity:.6}
+ #bO{right:56px;bottom:10px}
+ #bX{right:6px;bottom:36px}
+ .on{background:#fff8}
+ #fps{position:fixed;left:96px;bottom:6px;z-index:6;color:#0f0;font:10px/1.2 monospace;
+   pointer-events:none;display:none;white-space:pre}
+ body.overlay #fps{left:2px;top:2px;bottom:auto;background:#0008}
+</style>
+<script>
+ // globals expected by the exported PICO-8 player
+ var pico8_buttons=[0,0,0,0,0,0,0,0], pico8_mouse=[], pico8_gpio=new Array(128),
+     pico8_state=[], pico8_gamepads={count:0}, pico8_audio_context,
+     p8_touch_detected=true, p8_dropped_cart=null, p8_dropped_cart_name="", Module=null, p8_is_running=false;
+ function download_browser_file(){}
+ function p8_create_audio_context(){
+   if(pico8_audio_context){try{pico8_audio_context.resume();}catch(e){}return;}
+   var A=window.AudioContext||window.webkitAudioContext; if(!A)return;
+   pico8_audio_context=new A();
+ }
+ function p8_run_cart(){
+   if(p8_is_running)return; p8_is_running=true;
+   p8_create_audio_context();
+   Module={canvas:document.getElementById('canvas')};
+   var e=document.createElement('script'); e.src='##js_file##'; document.body.appendChild(e);
+   document.getElementById('start').style.display='none';
+ }
+</script>
+</head><body>
+<div id="stage"><canvas id="canvas" width="128" height="128" oncontextmenu="return false"></canvas></div>
+<div id="fps"></div>
+<div id="pad"><i></i></div>
+<div class="btn" id="bO" data-b="16">O</div>
+<div class="btn" id="bX" data-b="32">X</div>
+<div id="start" onpointerdown="p8_run_cart()"><img src="##label_file##" alt=""><div>tap to start</div></div>
+<script src="r1-input.js"></script>
+</body></html>
