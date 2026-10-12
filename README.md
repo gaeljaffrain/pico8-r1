@@ -48,7 +48,10 @@ Options:
 (bigger game, but covered)
 - `--fps` shows a frame-rate and window-size readout.
 
-
 ### Extra files and info
 `tools/probe.html` logs R1 events. 
 `docs/r1-findings.md` records what was verified on a real R1.
+
+## License
+
+QRBar is released under the MIT License. See [LICENSE](LICENSE) for details.
