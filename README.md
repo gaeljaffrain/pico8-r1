@@ -2,6 +2,12 @@
 
 Package a PICO-8 cart as a Rabbit R1 Creation: a folder of static web files plus the install QR code.
 
+<figure>
+  <img src="screenshots/smbp8.png" alt="PICO-8 games on Rabbit R1">
+  <figcaption>SMBP8 on the Rabbit R1.</figcaption>
+</figure>
+
+
 ```
 python3 pico8_to_r1.py cart.p8 --title "My Game" --base-url https://example.com/games/mygame/
 ```
@@ -47,6 +53,13 @@ Options:
 - `--layout overlay` draws the controls over the game instead of in their own strip under it
 (bigger game, but covered)
 - `--fps` shows a frame-rate and window-size readout.
+
+<figure>
+  <img src="screenshots/layout_default_.png" alt="Default Layout">
+  <img src="screenshots/layout_overlay_.png" alt="Overlay Layout">
+  <figcaption>2 layout options</figcaption>
+</figure>
+
 
 ### Extra files and info
 `tools/probe.html` logs R1 events. 
