@@ -54,12 +54,16 @@ Options:
 (bigger game, but covered)
 - `--fps` shows a frame-rate and window-size readout.
 
-<figure>
-  <img src="screenshots/layout_default.png" alt="Default Layout">
-  <img src="screenshots/layout_overlay.png" alt="Overlay Layout">
-  <figcaption>2 layout options</figcaption>
-</figure>
-
+<table>
+  <tr>
+    <td><img src="screenshots/layout_default.png" alt="Default Layout" /></td>
+    <td><img src="screenshots/layout_overlay.png" alt="Overlay Layout" /></td>
+  </tr>
+  <tr>
+    <td align="center">Default Layout</td>
+    <td align="center">Overlay Layout</td>
+  </tr>
+</table>
 
 ### Extra files and info
 `tools/probe.html` logs R1 events. 
