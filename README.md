@@ -55,8 +55,8 @@ Options:
 - `--fps` shows a frame-rate and window-size readout.
 
 <figure>
-  <img src="screenshots/layout_default_.png" alt="Default Layout">
-  <img src="screenshots/layout_overlay_.png" alt="Overlay Layout">
+  <img src="screenshots/layout_default.png" alt="Default Layout">
+  <img src="screenshots/layout_overlay.png" alt="Overlay Layout">
   <figcaption>2 layout options</figcaption>
 </figure>
 
