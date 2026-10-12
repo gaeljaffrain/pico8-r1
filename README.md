@@ -2,10 +2,11 @@
 
 Package a PICO-8 cart as a Rabbit R1 Creation: a folder of static web files plus the install QR code.
 
-<figure>
-  <img src="screenshots/smbp8.png" alt="PICO-8 games on Rabbit R1">
-  <figcaption>SMBP8 on the Rabbit R1.</figcaption>
-</figure>
+<p align="center">
+  <img src="screenshots/smbp8.png" width="300" alt="PICO-8 games on Rabbit R1" />
+  <br />
+  <sub>SMBP8 fan game on the Rabbit R1.</sub>
+</p>
 
 
 ```
