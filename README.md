@@ -87,7 +87,9 @@ comes out upside down, add `--landscape-flip`.
 - `--fps` shows a frame-rate and window-size readout.
 
 ### Extra files and info
-`tools/probe.html` logs R1 events. 
+`tools/probe.html` logs R1 events, audio state, window size and frame rate.
+`python3 tools/build_probe.py https://example.com/r1-probe/` packages it as a creation in `dist-probe/`
+(upload it to that URL, then scan `qr.png`).
 `docs/r1-findings.md` records what was verified on a real R1.
 
 ## Links

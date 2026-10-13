@@ -4,9 +4,10 @@
 <title>R1 probe</title>
 <style>
  body{margin:0;background:#000;color:#0f0;font:10px monospace}
- #l{white-space:pre-wrap;padding:2px;height:280px;overflow:hidden}
+ #l{white-space:pre-wrap;padding:2px;height:268px;overflow:hidden}
+ #f{padding:2px;color:#ff0}
 </style></head>
-<body><div id="l"></div>
+<body><div id="l"></div><div id="f"></div>
 <script>
 // Logs every input-ish event so we learn the R1's real event names.
 var L=document.getElementById('l'),lines=[];
@@ -23,11 +24,28 @@ log('size: '+innerWidth+'x'+innerHeight+' dpr='+devicePixelRatio);
     log(n+(e.key?' key='+e.key+' code='+e.code:'')+(e.deltaY?' dY='+e.deltaY:''));},{passive:true});
 });
 log('window.creationStorage: '+typeof window.creationStorage);
-log('AudioContext: '+typeof (window.AudioContext||window.webkitAudioContext));
+var A=window.AudioContext||window.webkitAudioContext,ac=null;
+log('AudioContext: '+typeof A);
+if(A){try{ac=new A();log('audio before tap: '+ac.state);}catch(e){log('audio ctor error: '+e);}}
+var tapped=0;
 document.body.addEventListener('click',function(){
-  var A=window.AudioContext||window.webkitAudioContext,c=new A();
-  log('audio state (no gesture yet?) -> '+c.state);
-  c.resume().then(function(){log('audio after tap: '+c.state);});
+  if(!A)return;
+  tapped++;
+  if(!ac)ac=new A();
+  log('audio at tap #'+tapped+': '+ac.state);
+  ac.resume().then(function(){
+    log('audio after resume: '+ac.state+' rate='+ac.sampleRate);
+    var o=ac.createOscillator(),g=ac.createGain();
+    o.frequency.value=440;g.gain.value=0.2;o.connect(g);g.connect(ac.destination);
+    o.start();o.stop(ac.currentTime+0.4);
+    log('beep 440Hz 0.4s: did you hear it?');
+  }).catch(function(e){log('resume error: '+e);});
 });
-log('Tap once to test audio; then turn wheel, click side button, hold it.');
+addEventListener('resize',function(){log('resize: '+innerWidth+'x'+innerHeight);});
+// rAF frame rate, refreshed every second
+var F=document.getElementById('f'),fr=0,t0=performance.now();
+(function tick(){fr++;var t=performance.now();
+  if(t-t0>=1000){F.textContent='raf fps: '+Math.round(fr*1000/(t-t0))+'  '+innerWidth+'x'+innerHeight;fr=0;t0=t;}
+  requestAnimationFrame(tick);})();
+log('Tap to test audio (beep); then turn wheel, click side button, hold it.');
 </script></body></html>

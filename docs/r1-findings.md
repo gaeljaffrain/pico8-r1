@@ -13,10 +13,7 @@ Binary: /Applications/pico-8/PICO-8.app/Contents/MacOS/pico8
 - Cart boot is slow in a throttled browser pane (~10 s); real R1 speed unknown.
 - Canvas is 128x128 and the shell stretches it; audio context state was "running" after the call.
 
-Still to check ON THE R1 (host tools/probe.html over https, scan a QR):
-- real names of wheel / side button / long-press events
-- audio after tap, WebView size (expect ~240x282)
-- frame rate of the exported player (pico8_state.frame_number over time)
+Probe on the R1: host tools/probe.html over https (build with tools/build_probe.py) and scan the QR.
 
 ## Confirmed ON THE R1 (probe.html)
 - Wheel turned physically UP   -> window 'scrollDown'   (inverted vs. intuition)
@@ -24,7 +21,13 @@ Still to check ON THE R1 (host tools/probe.html over https, scan a QR):
 - Side button click            -> window 'sideClick'
 - Side button hold             -> window 'longPressStart', then 'longPressEnd' on release
 - Touch                        -> 'pointerdown' then 'touchstart'
-Unverified: `--orientation landscape` rotation direction (wheel down = page rotated -90deg; `--landscape-flip` for +90deg) and thumb reach on the device.
+- WebView size: 240x292 (innerWidth x innerHeight)
+- WebView requestAnimationFrame rate: 56-59 fps (probe, fluctuates slightly)
+- Exported player (SMBP8, --fps readout): 60 fps
+- Audio: a new AudioContext is already 'running' before any tap (no autoplay block)
+- No 'keydown' (or 'wheel') event fires for the wheel or side button; only the events above
+- window.creationStorage: undefined (not available in this setup)
+- Audio at tap and after resume(): 'running'; the 440 Hz test beep is audible
+- `--orientation landscape --layout overlay` (no `--landscape-flip`) works on the R1 with the wheel down: Scopa! is playable, and the thumb reach is fine. The flip option is untested.
 
-Not yet reported: audio state after tap, viewport size, creationStorage, keydown, fps.
 Bridge mapping: physical wheel up = Up (bit 4) => handle 'scrollDown' as Up, 'scrollUp' as Down.
